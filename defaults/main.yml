@@ -1,0 +1,22 @@
+---
+# defaults file for pedrocarmona.packager-io
+packager_io_required_vars:
+  - packager_io_application_name
+  - packager_io_application_processes
+  - packager_io_environment_variables
+  - packager_io_repo_owner
+  - packager_io_repo_name
+
+
+packager_io_application_name: "{{ packager_io_repo_name }}"
+packager_io_application_processes: []
+packager_io_environment_variables: []
+
+packager_io_repo_branch: master
+
+packager_io_apt_repository_auth: "default:{{ packager_io_key }}@"
+packager_io_apt_repository: "deb https://{{ packager_io_apt_repository_auth }}dl.packager.io/srv/deb/{{ packager_io_repo_owner }}/{{ packager_io_repo_name }}/{{ packager_io_repo_branch }}/{{ ansible_distribution|lower }} {{ ansible_distribution_version }} main"
+
+packager_io_yum_repo_url: "https://default:{{ packager_io_key }}@dl.packager.io/srv/{{ packager_io_repo_owner }}/{{ packager_io_repo_name }}/{{ packager_io_repo_branch }}/installer/{{ (ansible_distribution == 'Fedora') | ternary('fedora','centos') }}/{{ ansible_distribution_release }}.repo"
+packager_io_yum_repo_enable_edge: 0
+

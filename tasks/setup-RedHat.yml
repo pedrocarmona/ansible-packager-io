@@ -1,0 +1,24 @@
+---
+- name: Add GPG Key
+  rpm_key:
+    key: https://rpm.packager.io/key
+    state: present
+  tags: packager-io
+
+- name: Add Application Repository
+  get_url:
+    url: "{{ packager_io_yum_repo_url }}"
+    dest: '/etc/yum.repos.d/{{ packager_io_application_name }}.repo'
+    owner: root
+    group: root
+    mode: 0644
+  tags: packager-io
+
+- name: Configure Application repo.
+  ini_file:
+    dest: '/etc/yum.repos.d/{{ packager_io_application_name }}.repo'
+    section: '{{ packager_io_application_name }}'
+    option: enabled
+    value: '{{ packager_io_yum_repo_enable_edge }}'
+  tags: packager-io
+

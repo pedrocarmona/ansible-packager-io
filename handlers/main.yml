@@ -1,0 +1,8 @@
+---
+# handlers file for pedrocarmona.packager-io
+- name: packager.io - start processes
+  shell: "/usr/bin/{{ packager_io_application_name }} scale {{ item.type }}={{ item.instances }}"
+  with_items: "{{ packager_io_application_processes }}"
+
+- name: packager.io - restart
+  command: "/usr/bin/{{ packager_io_application_name }} restart"

@@ -1,0 +1,34 @@
+---
+# tasks file for pedrocarmona.packager-io
+- name: "Check required variables"
+  fail:
+    msg: "packager.io variable ('{{ item }}') is not defined"
+  when: item not in vars
+  with_items: "{{ packager_io_required_vars }}"
+  tags: packager-io
+
+- include_tasks: setup-RedHat.yml
+  when: ansible_os_family == 'RedHat'
+  tags: packager-io
+
+- include_tasks: setup-Debian.yml
+  when: ansible_os_family == 'Debian'
+  tags: packager-io
+
+- name: Install Application.
+  package:
+    name: "{{ packager_io_application_name }}"
+    state: present
+  notify: restart docker
+  tags: packager-io
+
+- name: Set Application Environment Variables.
+  shell: /usr/bin/{{ packager_io_application_name }} config:set {{ item.name }}={{ item.value }}
+  with_items: "{{ packager_io_environment_variables }}"
+  notify:
+    - packager.io - restart
+    - packager.io - start processes
+  tags:
+    - packager-set-env
+    - packager-io
+    - config

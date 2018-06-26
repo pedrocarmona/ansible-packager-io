@@ -1,0 +1,30 @@
+---
+- name: Ensure dependencies are installed.
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - apt-transport-https
+    - wget
+  tags: packager-io
+
+- name: Add APT Key.
+  apt_key:
+    url: https://deb.packager.io/key
+    state: present
+  tags: packager-io
+
+- name: Add application repository.
+  apt_repository:
+    repo: "{{ packager_io_apt_repository }}"
+    filename: "{{ packager_io_application_name }}"
+    state: present
+    update_cache: yes
+  tags: packager-io
+
+- name: Install latest version of application.
+  apt:
+    name: "{{ packager_io_application_name }}"
+    state: latest
+    update_cache: yes
+  tags: packager-io
