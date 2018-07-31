@@ -10,7 +10,7 @@
 
 - name: Add APT Key.
   apt_key:
-    url: https://deb.packager.io/key
+    url: "{{ packager_io_apt_key }}"
     state: present
   tags: packager-io
 

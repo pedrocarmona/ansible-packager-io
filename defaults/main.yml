@@ -14,6 +14,7 @@ packager_io_environment_variables: []
 
 packager_io_repo_branch: master
 
+packager_io_apt_key: "https://dl.packager.io/srv/{{ packager_io_repo_owner }}/{{ packager_io_repo_name }}/key"
 packager_io_apt_repository_auth: "default:{{ packager_io_key }}@"
 packager_io_apt_repository: "deb https://{{ packager_io_apt_repository_auth }}dl.packager.io/srv/deb/{{ packager_io_repo_owner }}/{{ packager_io_repo_name }}/{{ packager_io_repo_branch }}/{{ ansible_distribution|lower }} {{ ansible_distribution_version }} main"
 
